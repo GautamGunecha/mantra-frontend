@@ -1,11 +1,11 @@
 import React from 'react'
-import Home from './pages/Home'
+import ApplicationRoutes from './routes/ApplicationRoutes'
 
 const App = () => {
   return (
-    <React.Fragment>
-      <Home />
-    </React.Fragment>
+    <div className='bg-theme min-h-screen'>
+      <ApplicationRoutes />
+    </div>
   )
 }
 
