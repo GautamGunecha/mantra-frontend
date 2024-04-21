@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
+
 import { CiSearch, } from "react-icons/ci";
 import { AiOutlineUser } from "react-icons/ai";
 import { FiHeart, FiShoppingCart } from "react-icons/fi";
@@ -21,7 +23,9 @@ const Header = () => {
       </div>
 
       <div className='flex gap-8 mr-20'>
-        <AiOutlineUser size={25} className='cursor-pointer' />
+        <Link to='/login'>
+          <AiOutlineUser size={25} className='cursor-pointer' />
+        </Link>
         <FiHeart size={25} className='cursor-pointer' />
         <FiShoppingCart size={25} className='cursor-pointer' />
       </div>
