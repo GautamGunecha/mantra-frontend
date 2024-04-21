@@ -18,8 +18,10 @@ const Header = () => {
       </div>
 
       <div className="text-center flex-1">
-        <h1 className="text-2xl font-bold">Mantra Fragrances</h1>
-        <p className="text-sm">Elevate your senses, one scent at a time.</p>
+        <Link to='/'>
+          <h1 className="text-2xl font-bold">Mantra Fragrances</h1>
+          <p className="text-sm">Elevate your senses, one scent at a time.</p>
+        </Link>
       </div>
 
       <div className='flex gap-8 mr-20'>
