@@ -1,30 +1,56 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux'
+
 import keys from '../../assets/configs/keys'
+import { initiateLogIn, LogInSuccess, LogInFailure } from '../../redux/user/reducer'
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
+  const { applicationError, loading } = useSelector(state => state.user)
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    submitted(true);
+    setSubmitted(true);
 
     try {
-      const uri = `${keys.backendUri}/api/auth/register`
+      dispatch(initiateLogIn());
+
+      const uri = `${keys.backendUri}/auth/login`
       const headers = {
         'Content-Type': 'application/json',
       };
-      
+
       const body = { email, password }
-      await axios.post(uri, body, { headers });
+      const response = await axios.post(uri, body, { headers });
+      const { success, data } = response.data;
+      const { currentUser, token } = data
+
+      localStorage.setItem('authToken', token);
+      if (success) {
+        clearFormData()
+        setSubmitted(false);
+
+        dispatch(LogInSuccess(currentUser))
+        navigate("/")
+      }
     } catch (error) {
       setSubmitted(false)
-      console.error(error.message)
+      dispatch(LogInFailure(error.response.data.info))
     }
   }
+
+  const clearFormData = () => {
+    setEmail('');
+    setPassword('');
+  };
 
   return (
     <div className='p-16 mb-16 flex justify-center items-center font-mono tracking-widest'>
@@ -51,12 +77,13 @@ const Login = () => {
               className='w-full px-4 py-2 border border-gray-300 focus:outline-none focus:border-gray-500'
             />
           </div>
+          <p className='text-center text-red-500'>{applicationError}</p>
           <button
             type='submit'
             disabled={submitted}
             className='w-full bg-gray-700 text-white py-2 hover:bg-gray-500 transition duration-300'
           >
-            Login
+            {loading ? 'Loading...' : 'Sign In'}
           </button>
         </form>
         <div className='flex justify-between mt-4'>

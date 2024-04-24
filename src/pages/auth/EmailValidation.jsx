@@ -14,7 +14,7 @@ const EmailValidation = () => {
   useEffect(() => {
     const validateToken = async () => {
       try {
-        const uri = `${keys.backendUri}/api/auth/validate/user`
+        const uri = `${keys.backendUri}/auth/validate/user`
         const headers = {
           'Content-Type': 'application/json',
         };

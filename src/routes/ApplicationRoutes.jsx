@@ -8,6 +8,7 @@ import Footer from '../components/Footer';
 import Register from '../pages/auth/Register';
 import EmailValidation from '../pages/auth/EmailValidation';
 import NotFound from '../pages/NotFound';
+import Forgot from '../pages/auth/Forgot';
 
 const ApplicationRoutes = () => {
   return (
@@ -21,6 +22,7 @@ const ApplicationRoutes = () => {
         <Route element={<Login />} path='/login' />
         <Route element={<Register />} path='/register' />
         <Route exact element={<EmailValidation />} path='/validate/email/:token' />
+        <Route exact element={<Forgot />} path='/forgot' />
 
         {/* route for handling 404 */}
         <Route path='*' element={<NotFound />} />

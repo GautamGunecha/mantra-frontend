@@ -15,7 +15,7 @@ const Register = () => {
     e.preventDefault();
     setSubmitted(true);
     try {
-      const uri = `${keys.backendUri}/api/auth/register`
+      const uri = `${keys.backendUri}/auth/register`
       const headers = {
         'Content-Type': 'application/json',
       };
@@ -29,9 +29,9 @@ const Register = () => {
         clearFormData()
       }
     } catch (error) {
-      console.error('error', error.message);
+      console.error('error', error.response.data.info);
       setSubmitted(false);
-      setMessage(error.message);
+      setMessage(error.response.data.info);
     } finally {
       setSubmitted(false)
     }
