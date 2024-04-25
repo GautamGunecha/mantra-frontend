@@ -1,7 +1,8 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import keys from '../../assets/configs/keys'
+import { useSelector } from 'react-redux'
 
 const Register = () => {
   const [firstName, setFirstName] = useState('');
@@ -10,6 +11,13 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false)
+
+  const { loggedIn } = useSelector(state => state.user)
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (loggedIn) navigate('/')
+  }, [loggedIn, navigate])
 
   const handleSubmit = async (e) => {
     e.preventDefault();

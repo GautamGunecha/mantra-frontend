@@ -9,8 +9,11 @@ import Register from '../pages/auth/Register';
 import EmailValidation from '../pages/auth/EmailValidation';
 import NotFound from '../pages/NotFound';
 import Forgot from '../pages/auth/Forgot';
+import { useSelector } from 'react-redux';
 
 const ApplicationRoutes = () => {
+  const { loggedIn } = useSelector(state => state.user)
+
   return (
     <BrowserRouter>
       <Banner />
@@ -19,9 +22,9 @@ const ApplicationRoutes = () => {
         <Route exact element={<Home />} path='/' />
 
         {/* application authentication path  */}
-        <Route element={<Login />} path='/login' />
-        <Route element={<Register />} path='/register' />
-        <Route exact element={<EmailValidation />} path='/validate/email/:token' />
+        <Route element={loggedIn ? <Home /> : <Login />} path='/login' />
+        <Route element={loggedIn ? <Home /> : <Register />} path='/register' />
+        <Route exact element={loggedIn ? <Home /> : <EmailValidation />} path='/validate/email/:token' />
         <Route exact element={<Forgot />} path='/forgot' />
 
         {/* route for handling 404 */}

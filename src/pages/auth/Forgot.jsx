@@ -1,13 +1,21 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios';
 
 import keys from '../../assets/configs/keys';
+import { useSelector } from 'react-redux';
 
 const Forgot = () => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false)
+
+  const navigate = useNavigate();
+  const { loggedIn } = useSelector(state => state.user)
+
+  useEffect(() => {
+    if (loggedIn) navigate('/')
+  }, [loggedIn, navigate])
 
   const handleSubmit = async (e) => {
     e.preventDefault();

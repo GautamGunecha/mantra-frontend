@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux'
@@ -11,10 +11,14 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
-  const { applicationError, loading } = useSelector(state => state.user)
+  const { applicationError, loading, loggedIn } = useSelector(state => state.user)
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (loggedIn) navigate('/')
+  }, [loggedIn, navigate])
 
   const handleSubmit = async (e) => {
     e.preventDefault();

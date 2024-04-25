@@ -1,11 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 import { CiSearch, } from "react-icons/ci";
 import { AiOutlineUser } from "react-icons/ai";
 import { FiHeart, FiShoppingCart } from "react-icons/fi";
 
 const Header = () => {
+  const { currentUser, loggedIn } = useSelector(state => state.user)
+
   return (
     <div className='p-4 flex justify-around items-center'>
       <div className='ml-16 relative flex justify-center'>
@@ -25,9 +28,18 @@ const Header = () => {
       </div>
 
       <div className='flex gap-8 mr-20'>
-        <Link to='/login'>
-          <AiOutlineUser size={25} className='cursor-pointer' />
-        </Link>
+        {
+          loggedIn ?
+            <Link to='/profile'>
+              <p className='tracking-widest font-mono cursor-pointer mb-2 transition-all duration-300 ease-in-out hover:underline'>
+                {currentUser.profile.firstName}
+              </p>
+            </Link>
+            : <Link to='/login'>
+              <AiOutlineUser size={25} className='cursor-pointer' />
+            </Link>
+        }
+
         <FiHeart size={25} className='cursor-pointer' />
         <FiShoppingCart size={25} className='cursor-pointer' />
       </div>
