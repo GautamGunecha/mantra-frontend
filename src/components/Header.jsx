@@ -8,6 +8,7 @@ import { FiHeart, FiShoppingCart } from "react-icons/fi";
 
 const Header = () => {
   const { currentUser, loggedIn } = useSelector(state => state.user)
+  const profileLink = `/profile/${currentUser._id}`;
 
   return (
     <div className='p-4 flex justify-around items-center'>
@@ -30,7 +31,7 @@ const Header = () => {
       <div className='flex gap-8 mr-20'>
         {
           loggedIn ?
-            <Link to='/profile'>
+            <Link to={profileLink}>
               <p className='tracking-widest font-mono cursor-pointer mb-2 transition-all duration-300 ease-in-out hover:underline'>
                 {currentUser.profile.firstName}
               </p>

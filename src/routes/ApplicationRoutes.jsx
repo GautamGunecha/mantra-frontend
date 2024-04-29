@@ -1,4 +1,6 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import Home from '../pages/Home'
 import Login from '../pages/auth/Login';
@@ -9,7 +11,7 @@ import Register from '../pages/auth/Register';
 import EmailValidation from '../pages/auth/EmailValidation';
 import NotFound from '../pages/NotFound';
 import Forgot from '../pages/auth/Forgot';
-import { useSelector } from 'react-redux';
+import Profile from '../pages/Profile';
 
 const ApplicationRoutes = () => {
   const { loggedIn } = useSelector(state => state.user)
@@ -26,6 +28,11 @@ const ApplicationRoutes = () => {
         <Route element={loggedIn ? <Home /> : <Register />} path='/register' />
         <Route exact element={loggedIn ? <Home /> : <EmailValidation />} path='/validate/email/:token' />
         <Route exact element={<Forgot />} path='/forgot' />
+
+        {/* private route */}
+
+        {/* profile */}
+        <Route element={<Profile />} path='/profile/:id' />
 
         {/* route for handling 404 */}
         <Route path='*' element={<NotFound />} />
