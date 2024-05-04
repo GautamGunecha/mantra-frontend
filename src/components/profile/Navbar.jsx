@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
@@ -11,16 +10,10 @@ import { MdOutlinePayments } from "react-icons/md";
 import keys from '../../assets/configs/keys';
 import { initiateLogOut, LogoutSuccess, LogoutFail } from '../../redux/user/reducer'
 
-const Navbar = () => {
-  const [activeNavItem, setActiveNavItem] = useState('');
-
+const Navbar = ({ activeNavItem, handleNavItemClick }) => {
   const { currentUser, loading } = useSelector(state => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const handleNavItemClick = (text) => {
-    setActiveNavItem(text);
-  }
 
   const handleSubmit = async (e) => {
     try {
@@ -45,7 +38,7 @@ const Navbar = () => {
 
   return (
     <div className="flex flex-col w-64 ml-[5.5rem] font-mono">
-      <div className="p-4 text-center shadow mb-4">
+      <div className="p-4 text-center shadow mb-4 cursor-pointer" onClick={() => handleNavItemClick('')}>
         <p className="font-bold text-2xl">{currentUser.profile.firstName} {currentUser.profile.lastName}</p>
         <p className="font-bold">Rs 0 Balance</p>
       </div>
@@ -61,17 +54,22 @@ const Navbar = () => {
 
       <div className="shadow p-4 bg-gray-200 mb-7">
         <form onSubmit={handleSubmit}>
-          <button type='submit' disabled={loading} className='flex items-center gap-2 cursor-pointer text-center'><CiLogout /> Log Out</button>
+          <button type='submit' disabled={loading} className='flex items-center gap-2 cursor-pointer text-center'><CiLogout />Log Out</button>
         </form>
       </div>
     </div>
   );
 }
 
+Navbar.propTypes = {
+  activeNavItem: PropTypes.string.isRequired,
+  handleNavItemClick: PropTypes.func.isRequired
+}
+
 const NavItem = ({ icon, text, active, handleClick }) => {
   return (
     <div
-      className={`flex items-center gap-2 mb-6 cursor-pointer text-center rounded-lg p-2 ${active ? 'bg-blue-100 border-l-4 border-blue-500' : ''}`}
+      className={`flex items-center gap-2 mb-6 cursor-pointer text-center rounded-lg p-2 ${active ? 'bg-blue-100 border-l-4 font-semibold border-blue-500' : ''}`}
       onClick={() => handleClick(text)}
     >
       {icon}

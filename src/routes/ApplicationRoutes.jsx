@@ -32,7 +32,7 @@ const ApplicationRoutes = () => {
         {/* private route */}
 
         {/* profile */}
-        <Route element={<Profile />} path='/profile/:id' />
+        <Route element={loggedIn ? <Profile /> : <Home />} path='/profile/:id' />
 
         {/* route for handling 404 */}
         <Route path='*' element={<NotFound />} />
