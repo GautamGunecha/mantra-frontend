@@ -86,4 +86,5 @@ export const {
   fetchCurrentUser,
   setCurrentUser,
 } = userSlice.actions;
+
 export default userSlice.reducer;

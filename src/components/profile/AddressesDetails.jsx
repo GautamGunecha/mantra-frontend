@@ -48,8 +48,6 @@ const AddressesDetails = () => {
   };
 
   const handleDelete = async (index) => {
-    dispatch(fetchCurrentUserAsync());
-
     const url = `${keys.backendUri}/address`;
     const authToken = localStorage.getItem('authToken');
 
