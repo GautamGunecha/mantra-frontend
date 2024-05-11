@@ -41,7 +41,7 @@ const ProfileDetails = () => {
       }
 
       const response = await axios.put(url, body, { headers })
-      const { success, info, data } = response.data
+      const { success, info } = response.data
 
       if (success) {
         setMessage(info)

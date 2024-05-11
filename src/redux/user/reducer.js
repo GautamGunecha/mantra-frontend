@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+import keys from "../../assets/configs/keys";
 
 const initialState = {
   currentUser: {},
@@ -41,8 +43,38 @@ const userSlice = createSlice({
       state.loading = false;
       state.loggedIn = false;
     },
+    fetchCurrentUser: (state) => {
+      state.loading = true;
+    },
+    setCurrentUser: (state, action) => {
+      state.currentUser = action.payload;
+      state.loading = false;
+    },
   },
 });
+
+export const fetchCurrentUserAsync = () => async (dispatch) => {
+  dispatch(fetchCurrentUser());
+  try {
+    const url = `${keys.backendUri}/auth/active/user`;
+    const authToken = localStorage.getItem("authToken");
+
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${authToken}`,
+    };
+
+    const response = await axios.get(url, { headers });
+    const { success, data } = response.data;
+    const { currentUser } = data;
+
+    if (success) {
+      dispatch(setCurrentUser(currentUser));
+    }
+  } catch (error) {
+    console.error(error.response.data.info);
+  }
+};
 
 export const {
   initiateLogIn,
@@ -51,5 +83,7 @@ export const {
   initiateLogOut,
   LogoutSuccess,
   LogoutFail,
+  fetchCurrentUser,
+  setCurrentUser,
 } = userSlice.actions;
 export default userSlice.reducer;
