@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
@@ -5,15 +6,26 @@ import { useNavigate } from 'react-router-dom'
 
 import { CiWallet, CiTrophy, CiLocationOn, CiLogout } from "react-icons/ci";
 import { IoTicketOutline, IoShareSocialOutline } from "react-icons/io5";
-import { MdOutlinePayments } from "react-icons/md";
+import { MdOutlinePayments, MdOutlineAdminPanelSettings } from "react-icons/md";
+import { IoMdAdd } from "react-icons/io";
 
 import keys from '../../assets/configs/keys';
 import { initiateLogOut, LogoutSuccess, LogoutFail } from '../../redux/user/reducer'
 
 const Navbar = ({ activeNavItem, handleNavItemClick }) => {
+  const [showNav, setShowNav] = useState(false)
   const { currentUser, loading } = useSelector(state => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const { role } = currentUser
+    const isAdmin = role.includes('admin');
+    const isVendor = role.includes('vendor')
+
+    if (isAdmin) setShowNav(true);
+    if (isVendor) setShowNav(true);
+  }, [currentUser])
 
   const handleSubmit = async (e) => {
     try {
@@ -50,6 +62,8 @@ const Navbar = ({ activeNavItem, handleNavItemClick }) => {
         <NavItem icon={<CiLocationOn />} text="Addresses" active={activeNavItem === 'Addresses'} handleClick={handleNavItemClick} />
         <NavItem icon={<MdOutlinePayments />} text="Payment Methods" active={activeNavItem === 'Payment Methods'} handleClick={handleNavItemClick} />
         <NavItem icon={<IoShareSocialOutline />} text="Social Networks" active={activeNavItem === 'Social Networks'} handleClick={handleNavItemClick} />
+        {showNav && <NavItem icon={<MdOutlineAdminPanelSettings />} text="Admin" active={activeNavItem === 'Admin'} handleClick={handleNavItemClick} />}
+        {showNav && <NavItem icon={<IoMdAdd />} text="Add Product" active={activeNavItem === 'Add Product'} handleClick={handleNavItemClick} />}
       </div>
 
       <div className="shadow p-4 bg-gray-200 mb-7">

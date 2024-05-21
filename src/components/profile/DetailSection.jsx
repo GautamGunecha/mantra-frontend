@@ -7,6 +7,8 @@ import AddressesDetails from './AddressesDetails';
 import PaymentMethodsDetails from './PaymentMethodsDetails';
 import SocialNetworksDetails from './SocialNetworksDetails';
 import ProfileDetails from './ProfileDetails';
+import Admin from './Admin';
+import AddProduct from './AddProduct';
 
 const DetailSection = ({ activeNavItem }) => {
   let detailContent;
@@ -29,6 +31,12 @@ const DetailSection = ({ activeNavItem }) => {
       break;
     case 'Social Networks':
       detailContent = <SocialNetworksDetails />
+      break;
+    case 'Admin':
+      detailContent = <Admin />
+      break;
+    case 'Add Product':
+      detailContent = <AddProduct />
       break;
     default:
       detailContent = <ProfileDetails />
